@@ -6,7 +6,7 @@ import { Renderer as PrismaCmsRenderer } from '@prisma-cms/front'
 
 import * as queryFragments from "@prisma-cms/front/lib/schema/generated/api.fragments";
 
-import App from "../App";
+import App from "./components/App";
 
 
 class DevRenderer extends PrismaCmsRenderer {
@@ -19,7 +19,7 @@ class DevRenderer extends PrismaCmsRenderer {
 
   static defaultProps = {
     ...PrismaCmsRenderer.defaultProps,
-    pure: false,
+    pure: true,
   }
 
   getRoutes() {
