@@ -227,8 +227,8 @@ export class Header extends PureComponent {
 			classes,
 		} = this.props;
 
-		if (this.refs.Header)
-			this.refs.Header.scrollLeft = this.props.scrollLeft;
+		if (this.Header)
+			this.Header.scrollLeft = this.props.scrollLeft;
 		//Check boundaries to see if wee need to recalcualte header
 		// if (this.needToRender()|| !this.cache){
 		//     this.cache=this.renderHeader();
@@ -236,7 +236,7 @@ export class Header extends PureComponent {
 		// }
 		return <div
 			id="timeline-header"
-			ref="Header"
+			ref={el => this.Header = el}
 			className={[classes.root, "timeLine-main-header-viewPort"].join(" ")}
 		>
 			{this.renderHeader()}

@@ -38,11 +38,26 @@ import DateHelper from './helpers/DateHelper'
 import "../styles/less/styles.css";
 
 
-
+export {
+  TaskList,
+}
 
 
 
 class TimeLine extends Component {
+
+  static propTypes = {
+    itemheight: PropTypes.number.isRequired,
+    dayWidth: PropTypes.number.isRequired,
+    TaskList: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    itemheight: 20,
+    dayWidth: 24,
+    TaskList,
+  };
+
   constructor(props) {
     super(props);
     this.dragging = false;
@@ -63,7 +78,7 @@ class TimeLine extends Component {
       nowposition: 0,
       startRow: 0,//
       endRow: 10,
-      sideStyle: { width: 200 },
+      sideStyle: { width: 300 },
       scrollLeft: 0,
       scrollTop: 0,
       numVisibleRows: 40,
@@ -361,11 +376,17 @@ class TimeLine extends Component {
   render() {
     this.checkMode();
     this.checkNeeeData();
+
+    const {
+      TaskList,
+    } = this.props;
+
     return (
       <div className="timeLine">
         <div className="timeLine-side-main" style={this.state.sideStyle}>
           <TaskList
-            ref='taskViewPort'
+            // ref='taskViewPort'
+            ref={el => this.taskViewPort = el}
             itemheight={this.props.itemheight}
             startRow={this.state.startRow}
             endRow={this.state.endRow}
@@ -373,7 +394,8 @@ class TimeLine extends Component {
             selectedItem={this.props.selectedItem}
             onSelectItem={this.onSelectItem}
             onUpdateTask={this.props.onUpdateTask}
-            onScroll={this.verticalChange} />
+            onScroll={this.verticalChange}
+          />
           <VerticalSpliter onTaskListSizing={this.onTaskListSizing} />
         </div>
         <div className="timeLine-main">
@@ -385,7 +407,7 @@ class TimeLine extends Component {
             mode={this.state.mode}
             scrollLeft={this.state.scrollLeft} />
           <DataViewPort
-            ref='dataViewPort'
+            ref={el => this.dataViewPort = el}
             scrollLeft={this.state.scrollLeft}
             scrollTop={this.state.scrollTop}
             itemheight={this.props.itemheight}
@@ -433,17 +455,6 @@ class TimeLine extends Component {
   }
 
 }
-
-TimeLine.propTypes = {
-  itemheight: PropTypes.number.isRequired,
-  dayWidth: PropTypes.number.isRequired
-};
-
-TimeLine.defaultProps = {
-  itemheight: 20,
-  dayWidth: 24
-};
-
 
 
 export default TimeLine

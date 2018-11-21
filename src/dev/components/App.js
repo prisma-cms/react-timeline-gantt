@@ -5,77 +5,87 @@ import TimeLine from '../../App';
 
 import Generator from './Generator'
 import './App.css'
+import { withStyles } from 'material-ui';
 
 
 const config = {
-  header: {
-    month: {
-      dateFormat: 'MMMM  YYYY',
-      style: {
-        background: "linear-gradient( grey, black)",
-        textShadow: '0.5px 0.5px black',
-        fontSize: 12
-      }
-    },
-    dayOfWeek: {
-      style: {
-        background: "linear-gradient( orange, grey)",
-        fontSize: 9
-      }
-    },
-    dayTime: {
-      style: {
-        background: "linear-gradient( grey, black)",
-        fontSize: 9,
-        color: "orange"
-      },
-      selectedStyle: {
-        background: "linear-gradient( #d011dd ,#d011dd)",
-        fontWeight: 'bold',
-        color: 'white'
-      }
-    }
-  },
-  taskList: {
-    title: {
-      label: "Task Todo",
-      style: {
-        background: "linear-gradient( grey, black)"
-      }
-    },
-    task: {
-      style: {
-        backgroundColor: 'grey',
-        color: 'white'
-      }
-    },
-    verticalSeparator: {
-      style: {
-        backgroundColor: '#fbf9f9',
-      },
-      grip: {
-        style: {
-          backgroundColor: 'red',
-        }
-      }
-    }
-  },
+  // header: {
+  //   month: {
+  //     dateFormat: 'MMMM  YYYY',
+  //     style: {
+  //       background: "linear-gradient( grey, black)",
+  //       textShadow: '0.5px 0.5px black',
+  //       fontSize: 12
+  //     }
+  //   },
+  //   dayOfWeek: {
+  //     style: {
+  //       background: "linear-gradient( orange, grey)",
+  //       fontSize: 9
+  //     }
+  //   },
+  //   dayTime: {
+  //     style: {
+  //       background: "linear-gradient( grey, black)",
+  //       fontSize: 9,
+  //       color: "orange"
+  //     },
+  //     selectedStyle: {
+  //       background: "linear-gradient( #d011dd ,#d011dd)",
+  //       fontWeight: 'bold',
+  //       color: 'white'
+  //     }
+  //   }
+  // },
+  // taskList: {
+  //   title: {
+  //     label: "Task Todo",
+  //     style: {
+  //       background: "linear-gradient( grey, black)"
+  //     }
+  //   },
+  //   task: {
+  //     style: {
+  //       backgroundColor: 'grey',
+  //       color: 'white'
+  //     }
+  //   },
+  //   verticalSeparator: {
+  //     style: {
+  //       backgroundColor: '#fbf9f9',
+  //     },
+  //     grip: {
+  //       style: {
+  //         backgroundColor: 'red',
+  //       }
+  //     }
+  //   }
+  // },
   dataViewPort: {
-    rows: {
-      style: {
-        backgroundColor: "white",
-        borderBottom: 'solid 0.5px silver'
-      }
-    },
+    // rows: {
+    //   style: {
+    //     backgroundColor: "white",
+    //     borderBottom: 'solid 0.5px silver'
+    //   }
+    // },
     task: {
       showLabel: true,
-      style: {
-        borderRadius: 1,
-        boxShadow: '2px 2px 8px #888888',
+      // style: {
+      //   borderRadius: 1,
+      //   boxShadow: '2px 2px 8px #888888',
 
-      }
+      // }
     }
   }
+}
+
+const styles = {
+  root: {
+    // height: "90vh",
+    // height: "100vh",
+    // overflow: "hidden",
+    // border: "1px solid red",
+  },
 }
 
 class TimelineDemoApp extends Component {
@@ -190,8 +200,14 @@ class TimelineDemoApp extends Component {
 
   render() {
 
+    const {
+      classes,
+    } = this.props;
+
     return (
-      <div className="app-container">
+      <div
+        className={["app-container", classes.root].join(" ")}
+      >
 
         <div className="nav-container">
           <div className="mode-container-title">Full Demo</div>
@@ -226,7 +242,7 @@ class TimelineDemoApp extends Component {
         </div>
         <div className="time-line-container">
           <TimeLine
-            // config={config}
+            config={config}
             data={this.state.data}
             links={this.state.links}
             onHorizonChange={this.onHorizonChange}
@@ -243,4 +259,4 @@ class TimelineDemoApp extends Component {
 
 }
 
-export default TimelineDemoApp;
+export default withStyles(styles)(TimelineDemoApp);

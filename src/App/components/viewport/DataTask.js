@@ -82,11 +82,16 @@ export default class DataTask extends Component {
 		this.setState({ left: newLeft, width: newWidth })
 		this.draggingPosition = x;
 	}
-	dragEnd() {
+	async dragEnd() {
 		this.props.onChildDrag(false)
 		let new_start_date = DateHelper.pixelToDate(this.state.left, this.props.nowposition, this.props.dayWidth);
 		let new_end_date = DateHelper.pixelToDate(this.state.left + this.state.width, this.props.nowposition, this.props.dayWidth);
-		this.props.onUpdateTask(this.props.item, { start: new_start_date, end: new_end_date })
+
+		console.log("dragEnd", new_start_date, new_end_date);
+		console.log("dragEnd nowposition", this.state.left, this.props.nowposition);
+
+		await this.props.onUpdateTask(this.props.item, { start: new_start_date, end: new_end_date })
+
 		this.setState({ dragging: false, mode: MODE_NONE })
 	}
 
