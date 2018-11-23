@@ -15,7 +15,7 @@ export class HeaderItem extends PureComponent {
 	}
 	render() {
 		return (
-			<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderLeft: 'solid 1px white', position: 'absolute', height: 20, left: this.props.left, width: this.props.width }}>
+			<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderLeft: 'solid 1px white', position: 'relative', height: 20, left: this.props.left, width: this.props.width }}>
 				<div>
 					{this.props.label}
 				</div>
@@ -121,7 +121,7 @@ export class Header extends PureComponent {
 			result.push(<HeaderItem key={i} left={iterLeft} width={hourWidth} label={mode == 'shorttime' ? i : `${i}:00`} />)
 			iterLeft = iterLeft + hourWidth;
 		}
-		return <div key={key} style={{ position: 'absolute', height: 20, left: left, width: width }}> {result}</div>;
+		return <div key={key} style={{ position: 'relative', height: 20, left: left, width: width }}> {result}</div>;
 	}
 	getBox(date, mode, lastLeft) {
 		let increment = this.getModeIncrement(date, mode) * this.props.dayWidth

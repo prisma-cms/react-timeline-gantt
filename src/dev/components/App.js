@@ -114,13 +114,13 @@ class TimelineDemoApp extends Component {
   }
 
   onHorizonChange = (start, end) => {
-    let result = this.state.data.filter((item) => {
-      return (item.start < start && item.end > end) ||
-        (item.start > start && item.start < end) ||
-        (item.end > start && item.end < end)
-    })
-    console.log('Calculating ')
-    this.setState({ data: result })
+    // let result = this.state.data.filter((item) => {
+    //   return (item.start < start && item.end > end) ||
+    //     (item.start > start && item.start < end) ||
+    //     (item.end > start && item.end < end)
+    // })
+    // console.log('Calculating ')
+    // this.setState({ data: result })
   }
 
   onSelectItem = (item) => {

@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+
+import PropTypes from "prop-types";
+
 import { DATA_CONTAINER_WIDTH } from '../../Const'
 import DataTask from '../../components/viewport/DataTask'
 import DateHelper from '../../helpers/DateHelper'
@@ -6,6 +9,7 @@ import sizeMe from 'react-sizeme'
 import Config from '../../helpers/config/Config'
 
 export class DataRow extends Component {
+
 	constructor(props) {
 		super(props);
 
@@ -13,13 +17,27 @@ export class DataRow extends Component {
 	render() {
 		return (
 			<div className="timeLine-main-data-row"
-				style={{ ...Config.values.dataViewPort.rows.style, top: this.props.top, height: this.props.itemheight }}>
+				style={{
+					...Config.values.dataViewPort.rows.style,
+					// top: this.props.top,
+					// height: this.props.itemheight,
+				}}>
 				{this.props.children}
 			</div>)
 	}
 }
 
 export class DataViewPort extends Component {
+
+	static propTypes = {
+		LinkViewPort: PropTypes.func.isRequired,
+		DataTask: PropTypes.func.isRequired,
+	}
+
+	static defaultProps = {
+		DataTask,
+	}
+
 	constructor(props) {
 		super(props)
 		this.childDragging = false
@@ -56,21 +74,34 @@ export class DataViewPort extends Component {
 
 	renderRows = () => {
 		let result = [];
-		for (let i = this.props.startRow; i < this.props.endRow + 1; i++) {
-			let item = this.props.data[i];
-			if (!item) break
+
+		const {
+			data,
+			DataTask,
+		} = this.props;
+
+		// for (let i = this.props.startRow; i < this.props.endRow + 1; i++) {
+		data.map((item, i) => {
+			if (!item) return;
 			//FIXME PAINT IN BOUNDARIES
 
 			let new_position = DateHelper.dateToPixel(item.start, this.props.nowposition, this.props.dayWidth);
 			let new_width = DateHelper.dateToPixel(item.end, this.props.nowposition, this.props.dayWidth) - new_position;
-			result.push(<DataRow key={i} label={item.name} top={i * this.props.itemheight} left={20} itemheight={this.props.itemheight} >
+
+			result.push(<DataRow
+				key={i}
+				label={item.name}
+			// top={i * this.props.itemheight} 
+			// left={20} 
+			// itemheight={this.props.itemheight}
+			>
 				<DataTask item={item} label={item.name}
 					nowposition={this.props.nowposition}
 					dayWidth={this.props.dayWidth}
 					color={item.color}
 					left={new_position}
 					width={new_width}
-					height={this.props.itemheight}
+					// height={this.props.itemheight}
 					onChildDrag={this.onChildDrag}
 					isSelected={this.props.selectedItem == item}
 					onSelectItem={this.props.onSelectItem}
@@ -80,7 +111,7 @@ export class DataViewPort extends Component {
 					onUpdateTask={this.props.onUpdateTask}> </DataTask>
 			</DataRow>);
 
-		}
+		})
 		return result;
 	}
 
@@ -107,12 +138,18 @@ export class DataViewPort extends Component {
 	}
 
 	render() {
+
+		const {
+			LinkViewPort,
+			...other
+		} = this.props;
+
 		if (this.dataViewPort) {
 			this.dataViewPort.scrollLeft = this.props.scrollLeft;
 			this.dataViewPort.scrollTop = this.props.scrollTop;
 		}
 
-		let height = this.getContainerHeight(this.props.data.length)
+		// let height = this.getContainerHeight(this.props.data.length)
 		return (
 			<div
 				// ref="dataViewPort"
@@ -129,9 +166,29 @@ export class DataViewPort extends Component {
 				onTouchCancel={this.props.onTouchCancel}
 			>
 
-				<div className="timeLine-main-data-container" style={{ height: height, width: DATA_CONTAINER_WIDTH, maxWidth: DATA_CONTAINER_WIDTH }}>
+				<div
+					className="timeLine-main-data-container"
+					style={{
+						// height: height,
+						width: DATA_CONTAINER_WIDTH,
+						maxWidth: DATA_CONTAINER_WIDTH
+						// height: "100%",
+						// width: "100%",
+					}}
+				>
+
 					{this.renderRows()}
+					
+					{this.dataViewPort ?
+						<LinkViewPort
+							{...other}
+							dataViewPort={this.dataViewPort}
+						/> : null
+					}
+					
 				</div>
+
+
 			</div>)
 	}
 }

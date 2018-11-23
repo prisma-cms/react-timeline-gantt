@@ -37,9 +37,11 @@ import DateHelper from './helpers/DateHelper'
 // import './TimeLine.css'
 import "../styles/less/styles.css";
 
+import DataTask from "./components/viewport/DataTask";
 
 export {
   TaskList,
+  DataTask,
 }
 
 
@@ -182,6 +184,9 @@ class TimeLine extends Component {
 
 
   horizontalChange = (newScrollLeft) => {
+
+    console.log("horizontalChange", newScrollLeft);
+
     let new_nowposition = this.state.nowposition;
     let new_left = -1;
     let headerData = this.state.headerData;
@@ -200,6 +205,8 @@ class TimeLine extends Component {
         new_left = newScrollLeft;
       }
     }
+
+    // new_left = newScrollLeft;
 
     //Get the day of the left position
     let currentIndx = Math.trunc((newScrollLeft - this.state.nowposition) / this.state.dayWidth)
@@ -374,12 +381,42 @@ class TimeLine extends Component {
 
   }
   render() {
-    this.checkMode();
-    this.checkNeeeData();
+    // this.checkMode();
+    // this.checkNeeeData();
 
     const {
       TaskList,
+      ...other
     } = this.props;
+
+    // return <DataViewPort
+    //   ref={el => this.dataViewPort = el}
+    //   scrollLeft={this.state.scrollLeft}
+    //   scrollTop={this.state.scrollTop}
+    //   itemheight={this.props.itemheight}
+    //   nowposition={this.state.nowposition}
+    //   startRow={this.state.startRow}
+    //   endRow={this.state.endRow}
+    //   data={this.props.data}
+    //   selectedItem={this.props.selectedItem}
+    //   dayWidth={this.state.dayWidth}
+    //   onScroll={this.scrollData}
+    //   onMouseDown={this.doMouseDown}
+    //   onMouseMove={this.doMouseMove}
+    //   onMouseUp={this.doMouseUp}
+    //   onMouseLeave={this.doMouseLeave}
+    //   onTouchStart={this.doTouchStart}
+    //   onTouchMove={this.doTouchMove}
+    //   onTouchEnd={this.doTouchEnd}
+    //   onTouchCancel={this.doTouchCancel}
+    //   onSelectItem={this.onSelectItem}
+    //   onUpdateTask={this.props.onUpdateTask}
+    //   onTaskChanging={this.onTaskChanging}
+    //   onStartCreateLink={this.onStartCreateLink}
+    //   onFinishCreateLink={this.onFinishCreateLink}
+    //   boundaries={{ lower: this.state.scrollLeft, upper: this.state.scrollLeft + this.state.size.width }}
+    //   onSize={this.onSize}
+    // />
 
     return (
       <div className="timeLine">
@@ -432,8 +469,17 @@ class TimeLine extends Component {
             onStartCreateLink={this.onStartCreateLink}
             onFinishCreateLink={this.onFinishCreateLink}
             boundaries={{ lower: this.state.scrollLeft, upper: this.state.scrollLeft + this.state.size.width }}
-            onSize={this.onSize} />
-          <LinkViewPort
+            onSize={this.onSize}
+
+            // For LinkViewPort
+            interactiveMode={this.state.interactiveMode}
+            taskToCreate={this.state.taskToCreate}
+            changingTask={this.state.changingTask}
+            links={this.props.links}
+            LinkViewPort={LinkViewPort}
+            {...other}
+          />
+          {/* <LinkViewPort
             scrollLeft={this.state.scrollLeft}
             scrollTop={this.state.scrollTop}
             startRow={this.state.startRow}
@@ -448,8 +494,8 @@ class TimeLine extends Component {
             selectedItem={this.props.selectedItem}
             onSelectItem={this.onSelectItem}
             itemheight={this.props.itemheight}
-            onSelectItem={this.onSelectItem}
-            links={this.props.links} />
+            links={this.props.links}
+          /> */}
         </div>
       </div>)
   }

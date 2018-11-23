@@ -40,7 +40,7 @@
   user-select: none;
 }
 .timeLine-main-header-day-item {
-  position: absolute;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,7 +55,7 @@
   text-align: center;
 }
 .timeLine-main-header-top-item {
-  position: absolute;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -95,6 +95,7 @@
   position: relative;
   overflow: hidden;
   background-color: #fbf9f9;
+  width: 100%;
 }
 .timeLine-main-data-container {
   position: relative;
@@ -104,12 +105,12 @@
   background-color: #ffffff;
 }
 .timeLine-main-data-row {
-  position: absolute;
+  position: relative;
   width: 100%;
-  height: 50px;
+  padding: 4px 0;
 }
 .timeLine-main-data-task {
-  position: absolute;
+  position: relative;
   background-color: darkorchid;
   border-radius: 14px;
   color: white;
@@ -199,7 +200,7 @@
   overflow-y: hidden;
 }
 .timeLine-side-task-row {
-  position: absolute;
+  position: relative;
   width: 100%;
   background-color: #707070;
   border-bottom-width: 0.5px;

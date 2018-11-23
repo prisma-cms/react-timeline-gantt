@@ -138,25 +138,77 @@ export default class DataTask extends Component {
 
 
 		if (this.state.dragging) {
-			return { ...configStyle, backgroundColor: backgroundColor, left: this.state.left, width: this.state.width, height: this.props.height - 5, top: 2 }
+			return {
+				...configStyle,
+				backgroundColor: backgroundColor,
+				left: this.state.left,
+				width: this.state.width,
+				height: this.props.height - 5,
+				// top: 2,
+			}
 		} else {
-			return { ...configStyle, backgroundColor, left: this.props.left, width: this.props.width, height: this.props.height - 5, top: 2 }
+			return {
+				...configStyle,
+				backgroundColor,
+				left: this.props.left,
+				width: this.props.width,
+				height: this.props.height - 5,
+				// top: 2,
+			}
 		}
 
 	}
+
+
+	renderInner(){
+
+		const {
+			item,
+		} = this.props;
+
+		const {
+			name,
+		} = item;
+
+		return Config.values.dataViewPort.task.showLabel ? name : "";
+	}
+
 	render() {
-		let style = this.calculateStyle()
+
+		let style = this.calculateStyle();
+
+		const {
+			item,
+		} = this.props;
+
+		const {
+			id,
+			name,
+		} = item;
+
 		return (
 			<div
 				onMouseDown={(e) => this.doMouseDown(e, MODE_MOVE)}
 				onTouchStart={(e) => this.doTouchStart(e, MODE_MOVE)}
-				onClick={(e) => { this.props.onSelectItem(this.props.item) }}
-				style={style}>
+				onClick={(e) => { this.props.onSelectItem(item) }}
+				style={{
+					...style,
+					display: "inline-flex",
+					flexDirection: "row",
+					alignItems: "center",
+				}}
+				data-id={id}
+			>
 				<div
 					className="timeLine-main-data-task-side"
-					style={{ top: 0, left: -4, height: style.height }}
+					style={{
+						// top: 0,
+						left: -4,
+						height: style.height,
+					}}
 					onMouseDown={(e) => this.doMouseDown(e, MOVE_RESIZE_LEFT)}
 					onTouchStart={(e) => this.doTouchStart(e, MOVE_RESIZE_LEFT)}
+					data-type="link-end"
 				>
 					<div
 						className="timeLine-main-data-task-side-linker"
@@ -164,13 +216,26 @@ export default class DataTask extends Component {
 						onTouchEnd={(e) => this.onCreateLinkTouchEnd(e, LINK_POS_LEFT)}
 					/>
 				</div>
-				<div style={{ overflow: 'hidden' }}>
-					{Config.values.dataViewPort.task.showLabel ? this.props.item.name : ""}
+				<div
+					style={{
+						overflow: 'hidden',
+						whiteSpace: "nowrap",
+						margin: "0 4px",
+						width: "100%",
+					}}
+				>
+					{this.renderInner()}
 				</div>
 				<div className="timeLine-main-data-task-side"
-					style={{ top: 0, left: style.width - 3, height: style.height }}
+					style={{
+						// top: 0,
+						// left: style.width - 3,
+						right: -4,
+						height: style.height,
+					}}
 					onMouseDown={(e) => this.doMouseDown(e, MOVE_RESIZE_RIGHT)}
 					onTouchStart={(e) => this.doTouchStart(e, MOVE_RESIZE_RIGHT)}
+					data-type="link-start"
 				>
 					<div
 						className="timeLine-main-data-task-side-linker"

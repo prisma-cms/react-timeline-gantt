@@ -1,3 +1,8 @@
+1.2.0
+=================================
+- Code refactoring. Remove absolute
+- Fix link view on endDate empty
+
 1.1.0
 =================================
 - Public release
