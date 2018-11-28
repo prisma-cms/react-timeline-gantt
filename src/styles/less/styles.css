@@ -93,7 +93,8 @@
 .timeLine-main-data-viewPort {
   flex: 1 1 auto;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background-color: #fbf9f9;
   width: 100%;
 }
