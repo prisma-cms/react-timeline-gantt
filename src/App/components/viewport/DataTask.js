@@ -1,10 +1,46 @@
 import React, { Component } from 'react'
+import PropTypes from "prop-types";
 import DateHelper from '../../helpers/DateHelper'
 import { MODE_NONE, MODE_MOVE, MOVE_RESIZE_LEFT, MOVE_RESIZE_RIGHT } from '../../Const'
 import { LINK_POS_LEFT, LINK_POS_RIGHT } from '../../Const'
 import Config from '../../helpers/config/Config'
+import { withStyles } from 'material-ui';
 
-export default class DataTask extends Component {
+export const styles = {
+	root: {
+		display: "inline-flex",
+		flexDirection: "row",
+		alignItems: "center",
+		minWidth: 170,
+	},
+	inner: {
+		overflow: 'hidden',
+		whiteSpace: "nowrap",
+		margin: "0 4px",
+		width: "100%",
+		textAlign: "left",
+	},
+	leftSide: {
+		// top: 0,
+		left: -4,
+		// height: style.height,
+	},
+	rightSide: {
+		// top: 0,
+		// left: style.width - 3,
+		right: -4,
+		// height: style.height,
+	},
+}
+
+export class DataTask extends Component {
+
+
+	static propTypes = {
+		classes: PropTypes.object.isRequired,
+	}
+
+
 	constructor(props) {
 		super(props);
 		this.calculateStyle = this.calculateStyle.bind(this)
@@ -160,7 +196,7 @@ export default class DataTask extends Component {
 	}
 
 
-	renderInner(){
+	renderInner() {
 
 		const {
 			item,
@@ -179,6 +215,7 @@ export default class DataTask extends Component {
 
 		const {
 			item,
+			classes,
 		} = this.props;
 
 		const {
@@ -193,19 +230,13 @@ export default class DataTask extends Component {
 				onClick={(e) => { this.props.onSelectItem(item) }}
 				style={{
 					...style,
-					display: "inline-flex",
-					flexDirection: "row",
-					alignItems: "center",
 				}}
 				data-id={id}
+				className={classes.root}
 			>
 				<div
 					className="timeLine-main-data-task-side"
-					style={{
-						// top: 0,
-						left: -4,
-						height: style.height,
-					}}
+					className={classes.leftSide}
 					onMouseDown={(e) => this.doMouseDown(e, MOVE_RESIZE_LEFT)}
 					onTouchStart={(e) => this.doTouchStart(e, MOVE_RESIZE_LEFT)}
 					data-type="link-end"
@@ -217,22 +248,12 @@ export default class DataTask extends Component {
 					/>
 				</div>
 				<div
-					style={{
-						overflow: 'hidden',
-						whiteSpace: "nowrap",
-						margin: "0 4px",
-						width: "100%",
-					}}
+					className={classes.inner}
 				>
 					{this.renderInner()}
 				</div>
 				<div className="timeLine-main-data-task-side"
-					style={{
-						// top: 0,
-						// left: style.width - 3,
-						right: -4,
-						height: style.height,
-					}}
+					className={classes.rightSide}
 					onMouseDown={(e) => this.doMouseDown(e, MOVE_RESIZE_RIGHT)}
 					onTouchStart={(e) => this.doTouchStart(e, MOVE_RESIZE_RIGHT)}
 					data-type="link-start"
@@ -247,3 +268,5 @@ export default class DataTask extends Component {
 
 	}
 }
+
+export default withStyles(styles)(DataTask);

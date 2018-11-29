@@ -90,26 +90,6 @@
   padding-top: 5px;
 }
 /* Main Area Data*/
-.timeLine-main-data-viewPort {
-  flex: 1 1 auto;
-  position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
-  background-color: #fbf9f9;
-  width: 100%;
-}
-.timeLine-main-data-container {
-  position: relative;
-  top: 0;
-  left: 0;
-  height: 100% ;
-  background-color: #ffffff;
-}
-.timeLine-main-data-row {
-  position: relative;
-  width: 100%;
-  padding: 4px 0;
-}
 .timeLine-main-data-task {
   position: relative;
   background-color: darkorchid;

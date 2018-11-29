@@ -7,24 +7,29 @@ import DataTask from '../../components/viewport/DataTask'
 import DateHelper from '../../helpers/DateHelper'
 import sizeMe from 'react-sizeme'
 import Config from '../../helpers/config/Config'
+import { withStyles } from 'material-ui';
 
-export class DataRow extends Component {
-
-	constructor(props) {
-		super(props);
-
-	}
-	render() {
-		return (
-			<div className="timeLine-main-data-row"
-				style={{
-					...Config.values.dataViewPort.rows.style,
-					// top: this.props.top,
-					// height: this.props.itemheight,
-				}}>
-				{this.props.children}
-			</div>)
-	}
+export const styles = {
+	root: {
+		"flex": "1 1 auto",
+		"position": "relative",
+		"overflowX": "hidden",
+		"overflowY": "auto",
+		"backgroundColor": "#fbf9f9",
+		"width": "100%"
+	},
+	container: {
+		"position": "relative",
+		"top": "0",
+		"left": "0",
+		"height": "100%",
+		"backgroundColor": "rgb(255, 255, 255)"
+	},
+	row: {
+		"position": "relative",
+		"width": "100%",
+		"padding": "4px 0"
+	},
 }
 
 export class DataViewPort extends Component {
@@ -72,12 +77,15 @@ export class DataViewPort extends Component {
 	//     }
 	// }
 
+
+
 	renderRows = () => {
 		let result = [];
 
 		const {
 			data,
 			DataTask,
+			classes,
 		} = this.props;
 
 		// for (let i = this.props.startRow; i < this.props.endRow + 1; i++) {
@@ -88,12 +96,36 @@ export class DataViewPort extends Component {
 			let new_position = DateHelper.dateToPixel(item.start, this.props.nowposition, this.props.dayWidth);
 			let new_width = DateHelper.dateToPixel(item.end, this.props.nowposition, this.props.dayWidth) - new_position;
 
-			result.push(<DataRow
+			// result.push(<DataRow
+			// 	key={i}
+			// 	label={item.name}
+			// // top={i * this.props.itemheight} 
+			// // left={20} 
+			// // itemheight={this.props.itemheight}
+			// >
+			// 	<DataTask item={item} label={item.name}
+			// 		nowposition={this.props.nowposition}
+			// 		dayWidth={this.props.dayWidth}
+			// 		color={item.color}
+			// 		left={new_position}
+			// 		width={new_width}
+			// 		// height={this.props.itemheight}
+			// 		onChildDrag={this.onChildDrag}
+			// 		isSelected={this.props.selectedItem == item}
+			// 		onSelectItem={this.props.onSelectItem}
+			// 		onStartCreateLink={this.props.onStartCreateLink}
+			// 		onFinishCreateLink={this.props.onFinishCreateLink}
+			// 		onTaskChanging={this.props.onTaskChanging}
+			// 		onUpdateTask={this.props.onUpdateTask}> </DataTask>
+			// </DataRow>);
+
+			result.push(<div
+				className={["timeLine-main-data-row", classes.row].join(" ")}
+				style={{
+					...Config.values.dataViewPort.rows.style,
+				}}
 				key={i}
 				label={item.name}
-			// top={i * this.props.itemheight} 
-			// left={20} 
-			// itemheight={this.props.itemheight}
 			>
 				<DataTask item={item} label={item.name}
 					nowposition={this.props.nowposition}
@@ -109,7 +141,7 @@ export class DataViewPort extends Component {
 					onFinishCreateLink={this.props.onFinishCreateLink}
 					onTaskChanging={this.props.onTaskChanging}
 					onUpdateTask={this.props.onUpdateTask}> </DataTask>
-			</DataRow>);
+			</div>);
 
 		})
 		return result;
@@ -141,6 +173,7 @@ export class DataViewPort extends Component {
 
 		const {
 			LinkViewPort,
+			classes,
 			...other
 		} = this.props;
 
@@ -155,7 +188,7 @@ export class DataViewPort extends Component {
 				// ref="dataViewPort"
 				ref={el => this.dataViewPort = el}
 				id="timeLinedataViewPort"
-				className="timeLine-main-data-viewPort"
+				className={["timeLine-main-data-viewPort", classes.root]}
 				onMouseDown={this.doMouseDown}
 				onMouseMove={this.doMouseMove}
 				onMouseUp={this.props.onMouseUp}
@@ -167,7 +200,7 @@ export class DataViewPort extends Component {
 			>
 
 				<div
-					className="timeLine-main-data-container"
+					className={["timeLine-main-data-container", classes.container]}
 					style={{
 						// height: height,
 						width: DATA_CONTAINER_WIDTH,
@@ -178,14 +211,14 @@ export class DataViewPort extends Component {
 				>
 
 					{this.renderRows()}
-					
+
 					{this.dataViewPort ?
 						<LinkViewPort
 							{...other}
 							dataViewPort={this.dataViewPort}
 						/> : null
 					}
-					
+
 				</div>
 
 
@@ -193,4 +226,7 @@ export class DataViewPort extends Component {
 	}
 }
 
-export default sizeMe({ monitorWidth: true, monitorHeight: true })(DataViewPort)
+export default sizeMe({
+	monitorWidth: true,
+	monitorHeight: true,
+})(withStyles(styles)(DataViewPort))
