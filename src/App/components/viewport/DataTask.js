@@ -108,10 +108,15 @@ export class DataTask extends Component {
 			width: this.props.width,
 		});
 	}
+	
 	dragProcess(x) {
+		// console.log("dragProcess", x, this.state.mode);
+
 		let delta = this.draggingPosition - x;
 		let newLeft = this.state.left;
 		let newWidth = this.state.width;
+
+		console.log("dragProcess", this.state.mode, x, delta);
 
 		switch (this.state.mode) {
 			case MODE_MOVE:
@@ -127,6 +132,9 @@ export class DataTask extends Component {
 		}
 		//the coordinates need to be global
 		let changeObj = { item: this.props.item, position: { start: newLeft - this.props.nowposition, end: newLeft + newWidth - this.props.nowposition } };
+
+		console.log("dragProcess changeObj", changeObj);
+
 		this.props.onTaskChanging(changeObj);
 		this.setState({ left: newLeft, width: newWidth })
 		this.draggingPosition = x;
@@ -153,6 +161,9 @@ export class DataTask extends Component {
 		}
 	}
 	doMouseMove = (e) => {
+
+		// console.log("doMouseMove", this.state.dragging, e.clientX);
+
 		if (this.state.dragging) {
 			e.stopPropagation();
 			this.dragProcess(e.clientX);
@@ -261,7 +272,18 @@ export class DataTask extends Component {
 		return (
 			<div
 				onMouseDown={(e) => this.doMouseDown(e, MODE_MOVE)}
-				onTouchStart={(e) => this.doTouchStart(e, MODE_MOVE)}
+				onMouseMove={this.doMouseMove}
+				// onTouchStart={(e) => this.doTouchStart(e, MODE_MOVE)}
+				// draggable={true}
+				// onDragStart={e => {
+
+				// 	console.log("onDragStart", e.target);
+
+				// 	e.preventDefault();
+
+				// 	this.dragStart(e.clientX, MODE_MOVE)
+				// 	return;
+				// }}
 				onClick={(e) => { this.props.onSelectItem(item) }}
 				style={{
 					...style,
@@ -272,14 +294,14 @@ export class DataTask extends Component {
 				<div
 					className="timeLine-main-data-task-side"
 					className={classes.leftSide}
-					onMouseDown={(e) => this.doMouseDown(e, MOVE_RESIZE_LEFT)}
-					onTouchStart={(e) => this.doTouchStart(e, MOVE_RESIZE_LEFT)}
+					// onMouseDown={(e) => this.doMouseDown(e, MOVE_RESIZE_LEFT)}
+					// onTouchStart={(e) => this.doTouchStart(e, MOVE_RESIZE_LEFT)}
 					data-type="link-end"
 				>
 					<div
 						className="timeLine-main-data-task-side-linker"
-						onMouseUp={(e) => this.onCreateLinkMouseUp(e, LINK_POS_LEFT)}
-						onTouchEnd={(e) => this.onCreateLinkTouchEnd(e, LINK_POS_LEFT)}
+					// onMouseUp={(e) => this.onCreateLinkMouseUp(e, LINK_POS_LEFT)}
+					// onTouchEnd={(e) => this.onCreateLinkTouchEnd(e, LINK_POS_LEFT)}
 					/>
 				</div>
 				<div
@@ -289,14 +311,14 @@ export class DataTask extends Component {
 				</div>
 				<div className="timeLine-main-data-task-side"
 					className={classes.rightSide}
-					onMouseDown={(e) => this.doMouseDown(e, MOVE_RESIZE_RIGHT)}
-					onTouchStart={(e) => this.doTouchStart(e, MOVE_RESIZE_RIGHT)}
+					// onMouseDown={(e) => this.doMouseDown(e, MOVE_RESIZE_RIGHT)}
+					// onTouchStart={(e) => this.doTouchStart(e, MOVE_RESIZE_RIGHT)}
 					data-type="link-start"
 				>
 					<div
 						className="timeLine-main-data-task-side-linker"
-						onMouseDown={(e) => this.onCreateLinkMouseDown(e, LINK_POS_RIGHT)}
-						onTouchStart={(e) => this.onCreateLinkTouchStart(e, LINK_POS_RIGHT)}
+					// onMouseDown={(e) => this.onCreateLinkMouseDown(e, LINK_POS_RIGHT)}
+					// onTouchStart={(e) => this.onCreateLinkTouchStart(e, LINK_POS_RIGHT)}
 					/>
 				</div>
 			</div>)
