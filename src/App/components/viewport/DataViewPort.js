@@ -188,7 +188,7 @@ export class DataViewPort extends Component {
 				// ref="dataViewPort"
 				ref={el => this.dataViewPort = el}
 				id="timeLinedataViewPort"
-				className={["timeLine-main-data-viewPort", classes.root]}
+				className={["timeLine-main-data-viewPort", classes.root].join(" ")}
 				onMouseDown={this.doMouseDown}
 				onMouseMove={this.doMouseMove}
 				onMouseUp={this.props.onMouseUp}
@@ -200,7 +200,7 @@ export class DataViewPort extends Component {
 			>
 
 				<div
-					className={["timeLine-main-data-container", classes.container]}
+					className={["timeLine-main-data-container", classes.container].join(" ")}
 					style={{
 						// height: height,
 						width: DATA_CONTAINER_WIDTH,
