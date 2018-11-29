@@ -37,7 +37,7 @@ import DateHelper from './helpers/DateHelper'
 // import './TimeLine.css'
 import "../styles/less/styles.css";
 
-import DataTask from "./components/viewport/DataTask";
+import * as DataTask from "./components/viewport/DataTask";
 
 export {
   TaskList,

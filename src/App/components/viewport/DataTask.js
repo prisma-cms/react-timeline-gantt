@@ -12,6 +12,13 @@ export const styles = {
 		flexDirection: "row",
 		alignItems: "center",
 		minWidth: 170,
+		backgroundColor: "grey",
+		color: "white",
+		position: 'relative',
+		borderRadius: 14,
+	},
+	selectedRoot: {
+		border: 'solid 1px #ff00fa',
 	},
 	inner: {
 		overflow: 'hidden',
@@ -22,12 +29,14 @@ export const styles = {
 	},
 	leftSide: {
 		// top: 0,
+		position: "absolute",
 		left: -4,
 		// height: style.height,
 	},
 	rightSide: {
 		// top: 0,
 		// left: style.width - 3,
+		position: "absolute",
 		right: -4,
 		// height: style.height,
 	},
@@ -38,8 +47,12 @@ export class DataTask extends Component {
 
 	static propTypes = {
 		classes: PropTypes.object.isRequired,
+		isSelected: PropTypes.bool.isRequired,
 	}
 
+	static defaultProps = {
+		isSelected: false,
+	}
 
 	constructor(props) {
 		super(props);
@@ -170,25 +183,31 @@ export class DataTask extends Component {
 
 	calculateStyle() {
 		let configStyle = this.props.isSelected ? Config.values.dataViewPort.task.selectedStyle : Config.values.dataViewPort.task.style;
-		let backgroundColor = this.props.color ? this.props.color : configStyle.backgroundColor
+		// let backgroundColor = this.props.color ? this.props.color : configStyle.backgroundColor
 
+		let {
+			left,
+			width,
+			height,
+		} = this.props;
 
 		if (this.state.dragging) {
 			return {
 				...configStyle,
-				backgroundColor: backgroundColor,
-				left: this.state.left,
-				width: this.state.width,
-				height: this.props.height - 5,
+				// backgroundColor: backgroundColor,
+				left,
+				width,
+				height: height ? height - 5 : undefined,
 				// top: 2,
 			}
 		} else {
 			return {
 				...configStyle,
-				backgroundColor,
-				left: this.props.left,
+				// backgroundColor,
+				left,
+				width,
 				width: this.props.width,
-				height: this.props.height - 5,
+				height: height ? height - 5 : undefined,
 				// top: 2,
 			}
 		}
@@ -209,13 +228,29 @@ export class DataTask extends Component {
 		return Config.values.dataViewPort.task.showLabel ? name : "";
 	}
 
+
+	getRootClasses() {
+
+		const {
+			classes,
+			isSelected,
+			className,
+		} = this.props;
+
+		return [classes.root, isSelected ? classes.selectedRoot : "", className];
+	}
+
 	render() {
 
 		let style = this.calculateStyle();
 
+		// console.log("DataTask style", style);
+
 		const {
 			item,
 			classes,
+			// isSelected,
+			// className,
 		} = this.props;
 
 		const {
@@ -232,7 +267,7 @@ export class DataTask extends Component {
 					...style,
 				}}
 				data-id={id}
-				className={classes.root}
+				className={this.getRootClasses().join(" ")}
 			>
 				<div
 					className="timeLine-main-data-task-side"

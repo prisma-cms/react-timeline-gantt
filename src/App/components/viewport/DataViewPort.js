@@ -127,7 +127,9 @@ export class DataViewPort extends Component {
 				key={i}
 				label={item.name}
 			>
-				<DataTask item={item} label={item.name}
+				<DataTask
+					item={item}
+					label={item.name}
 					nowposition={this.props.nowposition}
 					dayWidth={this.props.dayWidth}
 					color={item.color}
@@ -140,7 +142,8 @@ export class DataViewPort extends Component {
 					onStartCreateLink={this.props.onStartCreateLink}
 					onFinishCreateLink={this.props.onFinishCreateLink}
 					onTaskChanging={this.props.onTaskChanging}
-					onUpdateTask={this.props.onUpdateTask}> </DataTask>
+					onUpdateTask={this.props.onUpdateTask}
+				/>
 			</div>);
 
 		})

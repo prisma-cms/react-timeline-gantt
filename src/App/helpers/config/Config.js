@@ -67,21 +67,21 @@ const defvalues = {
 		task: {
 			showLabel: true,
 
-			style: {
-				position: 'relative',
-				borderRadius: 14,
-				color: 'white',
-				textAlign: 'center',
-				backgroundColor: 'grey'
-			},
-			selectedStyle: {
-				position: 'relative',
-				borderRadius: 14,
-				border: 'solid 1px #ff00fa',
-				color: 'white',
-				textAlign: 'center',
-				backgroundColor: 'grey'
-			}
+			// style: {
+			// 	position: 'relative',
+			// 	borderRadius: 14,
+			// 	color: 'white',
+			// 	textAlign: 'center',
+			// 	backgroundColor: 'grey'
+			// },
+			// selectedStyle: {
+			// 	position: 'relative',
+			// 	borderRadius: 14,
+			// 	border: 'solid 1px #ff00fa',
+			// 	color: 'white',
+			// 	textAlign: 'center',
+			// 	backgroundColor: 'grey'
+			// }
 		}
 	},
 	links: {
