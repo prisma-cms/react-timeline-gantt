@@ -1,3 +1,9 @@
+1.2.5
+=================================
+- taskListProps
+- headerProps
+- Fix header styles
+
 1.2.4
 =================================
 - Fix DragAndDrop

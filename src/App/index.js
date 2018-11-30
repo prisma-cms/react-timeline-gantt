@@ -52,12 +52,16 @@ class TimeLine extends Component {
     itemheight: PropTypes.number.isRequired,
     dayWidth: PropTypes.number.isRequired,
     TaskList: PropTypes.func.isRequired,
+    taskListProps: PropTypes.object,
+    Header: PropTypes.func.isRequired,
+    headerProps: PropTypes.object,
   };
 
   static defaultProps = {
     itemheight: 20,
     dayWidth: 24,
     TaskList,
+    Header,
   };
 
   constructor(props) {
@@ -386,6 +390,9 @@ class TimeLine extends Component {
 
     const {
       TaskList,
+      taskListProps,
+      Header,
+      headerProps,
       ...other
     } = this.props;
 
@@ -432,6 +439,7 @@ class TimeLine extends Component {
             onSelectItem={this.onSelectItem}
             onUpdateTask={this.props.onUpdateTask}
             onScroll={this.verticalChange}
+            {...taskListProps}
           />
           <VerticalSpliter onTaskListSizing={this.onTaskListSizing} />
         </div>
@@ -442,7 +450,9 @@ class TimeLine extends Component {
             nowposition={this.state.nowposition}
             dayWidth={this.state.dayWidth}
             mode={this.state.mode}
-            scrollLeft={this.state.scrollLeft} />
+            scrollLeft={this.state.scrollLeft}
+            {...headerProps}
+          />
           <DataViewPort
             ref={el => this.dataViewPort = el}
             scrollLeft={this.state.scrollLeft}
