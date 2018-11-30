@@ -423,7 +423,7 @@ class TimeLine extends Component {
         <div className="timeLine-side-main" style={this.state.sideStyle}>
           <TaskList
             // ref='taskViewPort'
-            ref={el => this.taskViewPort = el}
+            // ref={el => this.taskViewPort = el}
             itemheight={this.props.itemheight}
             startRow={this.state.startRow}
             endRow={this.state.endRow}

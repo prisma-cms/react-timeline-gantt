@@ -108,15 +108,13 @@ export class DataTask extends Component {
 			width: this.props.width,
 		});
 	}
-	
+
 	dragProcess(x) {
-		// console.log("dragProcess", x, this.state.mode);
 
 		let delta = this.draggingPosition - x;
 		let newLeft = this.state.left;
 		let newWidth = this.state.width;
 
-		console.log("dragProcess", this.state.mode, x, delta);
 
 		switch (this.state.mode) {
 			case MODE_MOVE:
@@ -133,19 +131,20 @@ export class DataTask extends Component {
 		//the coordinates need to be global
 		let changeObj = { item: this.props.item, position: { start: newLeft - this.props.nowposition, end: newLeft + newWidth - this.props.nowposition } };
 
-		console.log("dragProcess changeObj", changeObj);
 
 		this.props.onTaskChanging(changeObj);
 		this.setState({ left: newLeft, width: newWidth })
 		this.draggingPosition = x;
 	}
 	async dragEnd() {
+
+		if (!this.state.dragging) {
+			return;
+		}
+
 		this.props.onChildDrag(false)
 		let new_start_date = DateHelper.pixelToDate(this.state.left, this.props.nowposition, this.props.dayWidth);
 		let new_end_date = DateHelper.pixelToDate(this.state.left + this.state.width, this.props.nowposition, this.props.dayWidth);
-
-		console.log("dragEnd", new_start_date, new_end_date);
-		console.log("dragEnd nowposition", this.state.left, this.props.nowposition);
 
 		await this.props.onUpdateTask(this.props.item, { start: new_start_date, end: new_end_date })
 
@@ -157,12 +156,11 @@ export class DataTask extends Component {
 			return;
 		if (e.button === 0) {
 			e.stopPropagation();
-			this.dragStart(e.clientX, mode)
+			// this.dragStart(e.clientX, mode)
 		}
 	}
 	doMouseMove = (e) => {
 
-		// console.log("doMouseMove", this.state.dragging, e.clientX);
 
 		if (this.state.dragging) {
 			e.stopPropagation();
@@ -176,19 +174,15 @@ export class DataTask extends Component {
 	doTouchStart = (e, mode) => {
 		if (!this.props.onUpdateTask)
 			return;
-		console.log('start')
 		e.stopPropagation();
-		this.dragStart(e.touches[0].clientX, mode);
 	}
 	doTouchMove = (e) => {
 		if (this.state.dragging) {
-			console.log('move')
 			e.stopPropagation();
 			this.dragProcess(e.changedTouches[0].clientX);
 		}
 	}
 	doTouchEnd = (e) => {
-		console.log('end')
 		this.dragEnd();
 	}
 
@@ -206,8 +200,8 @@ export class DataTask extends Component {
 			return {
 				...configStyle,
 				// backgroundColor: backgroundColor,
-				left,
-				width,
+				left: this.state.left,
+				width: this.state.width,
 				height: height ? height - 5 : undefined,
 				// top: 2,
 			}
@@ -217,7 +211,6 @@ export class DataTask extends Component {
 				// backgroundColor,
 				left,
 				width,
-				width: this.props.width,
 				height: height ? height - 5 : undefined,
 				// top: 2,
 			}
@@ -255,7 +248,6 @@ export class DataTask extends Component {
 
 		let style = this.calculateStyle();
 
-		// console.log("DataTask style", style);
 
 		const {
 			item,
@@ -273,17 +265,13 @@ export class DataTask extends Component {
 			<div
 				onMouseDown={(e) => this.doMouseDown(e, MODE_MOVE)}
 				onMouseMove={this.doMouseMove}
-				// onTouchStart={(e) => this.doTouchStart(e, MODE_MOVE)}
-				// draggable={true}
-				// onDragStart={e => {
-
-				// 	console.log("onDragStart", e.target);
-
-				// 	e.preventDefault();
-
-				// 	this.dragStart(e.clientX, MODE_MOVE)
-				// 	return;
-				// }}
+				onTouchStart={(e) => this.doTouchStart(e, MODE_MOVE)}
+				draggable={true}
+				onDragStart={e => {
+					e.preventDefault();
+					this.dragStart(e.clientX, MODE_MOVE)
+					return;
+				}}
 				onClick={(e) => { this.props.onSelectItem(item) }}
 				style={{
 					...style,
@@ -294,8 +282,13 @@ export class DataTask extends Component {
 				<div
 					className="timeLine-main-data-task-side"
 					className={classes.leftSide}
-					// onMouseDown={(e) => this.doMouseDown(e, MOVE_RESIZE_LEFT)}
-					// onTouchStart={(e) => this.doTouchStart(e, MOVE_RESIZE_LEFT)}
+					onMouseDown={(e) => this.doMouseDown(e, MOVE_RESIZE_LEFT)}
+					onTouchStart={(e) => this.doTouchStart(e, MOVE_RESIZE_LEFT)}
+					onDragStart={e => {
+						e.preventDefault();
+						this.dragStart(e.clientX, MOVE_RESIZE_LEFT)
+						return;
+					}}
 					data-type="link-end"
 				>
 					<div
@@ -311,8 +304,13 @@ export class DataTask extends Component {
 				</div>
 				<div className="timeLine-main-data-task-side"
 					className={classes.rightSide}
-					// onMouseDown={(e) => this.doMouseDown(e, MOVE_RESIZE_RIGHT)}
-					// onTouchStart={(e) => this.doTouchStart(e, MOVE_RESIZE_RIGHT)}
+					onMouseDown={(e) => this.doMouseDown(e, MOVE_RESIZE_RIGHT)}
+					onTouchStart={(e) => this.doTouchStart(e, MOVE_RESIZE_RIGHT)}
+					onDragStart={e => {
+						e.preventDefault();
+						this.dragStart(e.clientX, MOVE_RESIZE_RIGHT)
+						return;
+					}}
 					data-type="link-start"
 				>
 					<div

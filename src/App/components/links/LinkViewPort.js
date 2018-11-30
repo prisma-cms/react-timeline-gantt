@@ -86,8 +86,6 @@ export default class LinkViewPort extends Component {
 
 	renderCreateLink = () => {
 
-		console.log("ToDo renderCreateLink", this.props.taskToCreate);
-
 		return;
 
 		if (this.props.interactiveMode) {
@@ -160,8 +158,6 @@ export default class LinkViewPort extends Component {
 			return;
 		}
 
-		console.log("getLinks links", links);
-		// console.log("getLinks data", data);
 
 		const portal = this.getPortal();
 
